@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
+body { margin: 0; }
+
+body { margin: 0; }
+
+@font-face {
+    font-family: braille;
+    src: url(assets/font/BRAILLE.ttf) format("opentype");
+}
