@@ -27,10 +27,13 @@ export class AppComponent {
   ];
 
   standards = [
-    "Standard"
+    'Standard',
+    'Euro Computer',
+    'US Computer',
+    'American modified'
   ]
 
-  url="../assets/mockresponse";
+  url="https://brailletranslator.azurewebsites.net/api/Translate";
 
   constructor(private http: HttpClient ) {
 
@@ -43,10 +46,10 @@ export class AppComponent {
     } else {
       let sentences = this.converterForm.controls['input'].value.split('.');
       from(sentences).pipe(
-        // concatMap(sentence => this.http.post(this.url, this.makebody(sentence))),   
-        concatMap(sentence => this.http.get(this.url))
+         concatMap(sentence => this.http.post(this.url, this.makebody(sentence))),   
+       // concatMap(sentence => this.http.get(this.url))
      
-      )
+      ).
       subscribe((val: any) => this.output = this.output.concat(val.Output))  
 
     }
