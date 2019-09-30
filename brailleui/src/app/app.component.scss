@@ -24,7 +24,11 @@ form {
 
 .header {
     font-weight: 500;
+    font-family: sans-serif;
     padding: 10px 50px;
+    display: flex;
+    /* align-content: center; */
+    align-items: center;
 }
 
 .output {

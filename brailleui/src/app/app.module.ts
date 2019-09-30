@@ -10,6 +10,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
