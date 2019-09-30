@@ -1,0 +1,22 @@
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    command: install
+    workingDir: src/brailleui
+
+- task: Npm@1
+  displayName: 'Build Angular'
+  inputs:
+    command: custom
+    customCommand: run build -- --prod
+    workingDir: src/brailleui
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'angular'
+    targetPath: 'src/brailleui/dist'
