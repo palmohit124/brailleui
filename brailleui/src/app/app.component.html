@@ -1,7 +1,8 @@
-<header class="header"><img class="logo" src="../assets/logo.png"><span>Braille Translator</span></header>
+
 
 <form [formGroup]="converterForm" (ngSubmit)="onSubmit()">
     <div class="fields-container">
+        <header class="header"><img class="logo" src="../assets/logo.png"><span>Braille Translator</span></header>
 
         <div class="form-field">
             <div style="width:100%">
@@ -9,14 +10,18 @@
                 text-align: center;
                 width: 50%;
                 font-family: monospace;
-                cursor: pointer">
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: bold;">
                     <p>Translator</p>
                 </div>
                 <div [ngClass]="{'selectedTab': selectedTab === 'rules'}" (click)="changeTab('rules')" style="display:inline-block;
                 text-align: center;
                 width: 50%;
                 font-family: monospace;
-                cursor: pointer">
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: bold;">
                     <p>Rules</p>
                 </div>
             </div>
@@ -24,7 +29,7 @@
         <div 
             style=" display:flex; flex-direction: row; justify-content: space-between ">
             <mat-form-field class="form-field" style="width: 45%">
-                <mat-label>Select a grade</mat-label>
+                <mat-label>Select a Grade</mat-label>
                 <mat-select formControlName='grade'>
                     <mat-option *ngFor="let grade of grades" [value]="grade">
                         {{grade}} </mat-option>
@@ -32,7 +37,7 @@
             </mat-form-field>
 
             <mat-form-field class="form-field" style="width: 45%">
-                <mat-label>Please select a standard</mat-label>
+                <mat-label>Please select a Standard</mat-label>
                 <mat-select formControlName='standard'>
                     <mat-option *ngFor="let standard of standards" [value]="standard">
                         {{standard}}
