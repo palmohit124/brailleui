@@ -1,4 +1,4 @@
-import { Component, Output } from '@angular/core';
+import { Component, Output, Pipe, PipeTransform } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, from } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -14,14 +14,14 @@ import { concatMap } from 'rxjs/operators';
 export class AppComponent {
   title = 'app';
   converterForm = new FormGroup({
-    grade: new FormControl('', Validators.required),
-    standard: new FormControl('', Validators.required),
+    grade: new FormControl('Grade 1', Validators.required),
+    standard: new FormControl('Standard', Validators.required),
     input: new FormControl('', Validators.required),
-    filter: new FormControl('')
+    filter: new FormControl('ALL')
   });
   output: any;
-  selectedTab="translator";
-  rules:any = [];
+  selectedTab = "translator";
+  rules: any = [];
 
   grades = [
     "Grade 1",
@@ -30,10 +30,13 @@ export class AppComponent {
   ];
 
   filters = [
-    'All',
-    'Prefix',
-    'Postfix'
-  ] 
+    "ALL",
+    "POSTFIX",
+    "CONTAINS",
+    "PREFIX",
+    "WORD",
+    "NUMBER"
+  ]
 
   standards = [
     'Standard',
@@ -43,7 +46,7 @@ export class AppComponent {
   ]
 
   url = "https://brailletranslator.azurewebsites.net/api/Translate";
-  urlRules="https://brailletranslator.azurewebsites.net/api/Rules";
+  urlRules = "https://brailletranslator.azurewebsites.net/api/Rules";
 
   constructor(private http: HttpClient) {
 
@@ -85,10 +88,17 @@ export class AppComponent {
   getRules() {
     this.rules = []
     this.http.get(this.urlRules + '/' + this.converterForm.controls['grade'].value +
-    '/' + this.converterForm.controls['standard'].value)
-    .subscribe((data) => {
-      this.rules = data;
-    });
+      '/' + this.converterForm.controls['standard'].value)
+      .subscribe((data) => {
+        this.rules = data;
+      });
   }
 
+}
+
+@Pipe({ name: 'ruleTypeFilter' })
+export class RulePipe implements PipeTransform {
+  transform(rules: any[], filterString: string): any[] {
+    return !filterString || filterString === "ALL" ? rules : rules.filter(x => x.ruleType === filterString);
+  }
 }

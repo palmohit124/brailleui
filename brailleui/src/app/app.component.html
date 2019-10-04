@@ -65,7 +65,7 @@
         </div>
 
         <div class="form-field" *ngIf="rules.length && selectedTab === 'rules'">
-            <mat-form-field class="form-field" style="width: 50%">
+            <mat-form-field class="form-field" style="width: 50%" *ngIf="converterForm.controls['grade'].value !== 'Grade 1'">
                 <mat-label>Filter with rule type</mat-label>
                 <mat-select formControlName='filter'>
                     <mat-option *ngFor="let filter of filters" [value]="filter">
@@ -84,10 +84,10 @@
                             <th>Rule Type</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let rule of rules">
+                            <tr *ngFor="let rule of rules | ruleTypeFilter : converterForm.controls['filter'].value">
                                 <td>{{rule.key}}</td>
                                 <td>{{rule.value}}</td>
-                                <td>{{rule.ruleType}}</td>
+                                <td>{{rule.ruleType || 'NA'}}</td>
                             </tr>
                         </tbody>
                     </table>
