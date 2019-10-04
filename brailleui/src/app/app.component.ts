@@ -84,8 +84,8 @@ export class AppComponent {
 
   getRules() {
     this.rules = []
-    this.http.get(this.urlRules + '/grade=' + this.converterForm.controls['grade'].value +
-    '/standard=' + this.converterForm.controls['standard'].value)
+    this.http.get(this.urlRules + '/' + this.converterForm.controls['grade'].value +
+    '/' + this.converterForm.controls['standard'].value)
     .subscribe((data) => {
       this.rules = data;
     });
