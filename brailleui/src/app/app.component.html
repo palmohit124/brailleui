@@ -1,31 +1,55 @@
 <header class="header"><img class="logo" src="../assets/logo.png"><span>Braille Translator</span></header>
 
 <form [formGroup]="converterForm" (ngSubmit)="onSubmit()">
-    <div class="fields-container">        
-        <mat-form-field class="form-field">
-            <mat-label>Select a grade</mat-label>
-            <mat-select formControlName='grade'>
-                <mat-option *ngFor="let grade of grades" [value]="grade">
-                    {{grade}} </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <div class="fields-container">
 
-        <mat-form-field class="form-field">
-            <mat-label>Please select a standard</mat-label>
-            <mat-select formControlName='standard'>
-                <mat-option *ngFor="let standard of standards" [value]="standard">
-                    {{standard}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div class="form-field">
+            <div style="width:100%">
+                <div [ngClass]="{'selectedTab': selectedTab === 'translator'}" (click)="changeTab('translator')" style=" display:inline-block;
+                text-align: center;
+                width: 50%;
+                font-family: monospace;
+                cursor: pointer">
+                    <p>Translator</p>
+                </div>
+                <div [ngClass]="{'selectedTab': selectedTab === 'rules'}" (click)="changeTab('rules')" style="display:inline-block;
+                text-align: center;
+                width: 50%;
+                font-family: monospace;
+                cursor: pointer">
+                    <p>Rules</p>
+                </div>
+            </div>
+        </div>
+        <div 
+            style=" display:flex; flex-direction: row; justify-content: space-between ">
+            <mat-form-field class="form-field" style="width: 45%">
+                <mat-label>Select a grade</mat-label>
+                <mat-select formControlName='grade'>
+                    <mat-option *ngFor="let grade of grades" [value]="grade">
+                        {{grade}} </mat-option>
+                </mat-select>
+            </mat-form-field>
 
-        <mat-form-field class="form-field">
+            <mat-form-field class="form-field" style="width: 45%">
+                <mat-label>Please select a standard</mat-label>
+                <mat-select formControlName='standard'>
+                    <mat-option *ngFor="let standard of standards" [value]="standard">
+                        {{standard}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <mat-form-field class="form-field" *ngIf="selectedTab === 'translator'">
             <textarea formControlName='input' matInput placeholder="Enter text to  translate" [rows]="5"></textarea>
         </mat-form-field>
-        <div class="form-field" style="text-align: right">
-            <button mat-flat-button color="primary" type="submit">Translate</button>
+        <div class="form-field" style="text-align: right" *ngIf="selectedTab === 'translator'">
+            <button class="buttons" mat-flat-button color="primary" type="submit">Translate</button>
+            <button class="buttons" mat-button type="button" (click)="onClear()">Clear</button>
         </div>
-        <mat-card>
+        <mat-card *ngIf="selectedTab === 'translator'">
             <mat-card-header>
                 <mat-card-title>Translated Braille Text:</mat-card-title>
             </mat-card-header>
@@ -34,9 +58,41 @@
                     {{output}}
                 </p>
             </mat-card-content>
-            <mat-card-actions>
-                <button mat-button type="button" (click)="onClear()">Clear</button>
-            </mat-card-actions>
         </mat-card>
+        <div class="form-field" style="text-align: right" *ngIf="selectedTab === 'rules'">
+            <button class="buttons" mat-flat-button color="primary" type="button" (click)="getRules()"> Get
+                Rules</button>
+        </div>
+
+        <div class="form-field" *ngIf="rules.length && selectedTab === 'rules'">
+            <mat-form-field class="form-field" style="width: 50%">
+                <mat-label>Filter with rule type</mat-label>
+                <mat-select formControlName='filter'>
+                    <mat-option *ngFor="let filter of filters" [value]="filter">
+                        {{filter}} </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title style="font-weight: bold">Rules:</mat-card-title>
+                </mat-card-header>
+                <mat-card-content style="display: flex; justify-content: center">
+                    <table>
+                        <thead>
+                            <th>Key</th>
+                            <th>Value</th>
+                            <th>Rule Type</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let rule of rules">
+                                <td>{{rule.key}}</td>
+                                <td>{{rule.value}}</td>
+                                <td>{{rule.ruleType}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
 </form>

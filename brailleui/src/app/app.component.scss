@@ -34,3 +34,23 @@ form {
 .output {
   font-family: braille;    
 }
+
+.buttons {
+    background-color: #278ec7;
+    margin: 0 10px;
+    color: white;
+}
+
+.selectedTab {
+    border-bottom: 1px solid #278ec7;
+}
+
+td, th {
+    width: 33%;
+    text-align: center;
+    padding: 5px;
+}
+
+table, thead, tbody {
+    width: 80%
+}

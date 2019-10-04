@@ -16,15 +16,24 @@ export class AppComponent {
   converterForm = new FormGroup({
     grade: new FormControl('', Validators.required),
     standard: new FormControl('', Validators.required),
-    input: new FormControl('', Validators.required)
+    input: new FormControl('', Validators.required),
+    filter: new FormControl('')
   });
   output: any;
+  selectedTab="translator";
+  rules:any = [];
 
   grades = [
     "Grade 1",
     "Grade 2",
     "Grade 3"
   ];
+
+  filters = [
+    'All',
+    'Prefix',
+    'Postfix'
+  ] 
 
   standards = [
     'Standard',
@@ -33,26 +42,25 @@ export class AppComponent {
     'American modified'
   ]
 
-  url="https://brailletranslator.azurewebsites.net/api/Translate";
+  url = "https://brailletranslator.azurewebsites.net/api/Translate";
+  urlRules="https://brailletranslator.azurewebsites.net/api/Rules";
 
-  constructor(private http: HttpClient ) {
+  constructor(private http: HttpClient) {
 
   }
 
   onSubmit() {
     this.output = ""
-    if ( this.converterForm.controls['grade'].value === 'Grade 1' ) {
-      this.output = this.converterForm.controls['input'].value; 
-    } else {
-      let sentences = this.converterForm.controls['input'].value.split('.');
-      from(sentences).pipe(
-         concatMap(sentence => this.http.post(this.url, this.makebody(sentence))),   
-       // concatMap(sentence => this.http.get(this.url))
-     
-      ).
-      subscribe((val: any) => this.output = this.output.concat(val.Output))  
+    let sentences = this.converterForm.controls['input'].value.split('.');
+    from(sentences).pipe(
+      concatMap(sentence => this.http.post(this.url, this.makebody(sentence))),
+      // concatMap(sentence => this.http.get(this.url))
 
-    }
+    ).
+      subscribe((val: any) => {
+        this.output = this.output.concat(val.Output);
+        console.log(this.output);
+      })
   }
 
   onClear() {
@@ -62,12 +70,25 @@ export class AppComponent {
 
   makebody(sentence) {
     return {
-      "Grade" : this.converterForm.controls['grade'].value,
+      "Grade": this.converterForm.controls['grade'].value,
 
-      "Standard" : this.converterForm.controls['standard'].value,
+      "Standard": this.converterForm.controls['standard'].value,
 
       "Text": sentence
     }
+  }
+
+  changeTab(tabName) {
+    this.selectedTab = tabName
+  }
+
+  getRules() {
+    this.rules = []
+    this.http.get(this.urlRules + '/grade=' + this.converterForm.controls['grade'].value +
+    '/standard=' + this.converterForm.controls['standard'].value)
+    .subscribe((data) => {
+      this.rules = data;
+    });
   }
 
 }
