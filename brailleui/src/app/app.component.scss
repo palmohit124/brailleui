@@ -57,3 +57,76 @@ td, th {
 table, thead, tbody {
     width: 80%
 }
+
+.book-container {
+    min-width: 520px;
+
+    .book {
+        display: inline-block;
+        width: 150px;
+        padding: 5px;        
+        background-color: white;
+    
+        .book-details {
+            display: flex;
+            flex-direction: column;
+            min-height: 280px;
+    
+            .cover {
+                width: 150px;
+                height: 200px;
+                border-radius: 5px;
+            }
+    
+            .details {
+                font-family: 'sans-serif';
+                font-size: 12px;
+        
+               .title {
+                    display: block;
+                    font-weight: bold;            
+                    text-transform: uppercase;                    
+                    padding: 10px 0 5px 0;
+               }
+               .author {
+                    text-transform: capitalize;
+               }
+            }
+        }    
+    }
+
+    .search-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px;
+        min-width: 400px;
+
+        .search-group {
+            border-bottom: 1px solid grey;
+            display: flex;
+            justify-content: space-between;
+            width: 70%
+        }
+        
+        .search-field {
+            border: 0;
+            background: transparent;
+            padding: 0 15px 7px 15px;
+            font-size: 1em;
+            font-weight: 500;
+            width: 90%;
+        }
+
+        input:focus, div:focus, button:focus {
+            outline: none
+        }
+
+        .cancel-button {
+            border: 0;
+            padding: 5px 0;
+            background: transparent;
+            font-weight: bold;
+        }
+    }
+}

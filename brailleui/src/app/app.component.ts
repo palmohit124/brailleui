@@ -1,9 +1,10 @@
-import { Component, Output, Pipe, PipeTransform } from '@angular/core';
+import { Component, Output, Pipe, PipeTransform, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable, from } from 'rxjs';
+import { Observable, from, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/observable/from';
 import { concatMap } from 'rxjs/operators';
+import { AppService } from './app.service';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { concatMap } from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'app';
   converterForm = new FormGroup({
     grade: new FormControl('Grade 1', Validators.required),
@@ -20,7 +21,7 @@ export class AppComponent {
     filter: new FormControl('ALL')
   });
   output: any;
-  selectedTab = "translator";
+  selectedTab = "searchBooks";
   rules: any = [];
 
   grades = [
@@ -48,9 +49,38 @@ export class AppComponent {
   url = "https://brailletranslator.azurewebsites.net/api/Translate";
   urlRules = "https://brailletranslator.azurewebsites.net/api/Rules";
 
-  constructor(private http: HttpClient) {
 
+  //SEARCH
+
+  searchTerm$ = new Subject<string>();
+  showAlert = false;
+  bookList: Array<Object> = [];
+  books: any;
+  options = {
+    url: 'http://skunkworks.ignitesol.com:8000/books?mime_type=image%2Fjpeg',
+    ids:'',
+    mime_type: '',
+    search: '',
+    topic: '',
+    next: '',
+    prev: ''
+  };
+
+  constructor(private http: HttpClient,
+    private appService: AppService) {
   }
+
+  ngOnInit() {
+    this.getBooks(this.options);
+    this.appService.search(this.searchTerm$, this.options)
+      .subscribe((results: any) => {
+        this.books = results;
+        this.bookList = results.results
+        this.refineFormats(this.bookList)
+      });
+  }
+
+
 
   onSubmit() {
     this.output = ""
@@ -66,9 +96,69 @@ export class AppComponent {
       })
   }
 
+  redirect(url) {
+    if(url) {
+      window.open(url, '_.blank')
+    }
+  }
+
+  getBooks(topic) {
+    this.appService.books(topic)
+      .subscribe(
+        (data: any) => {
+          this.books = data;
+          this.bookList = data.results;
+          this.refineFormats(this.bookList);
+        },
+        (error) => {}
+      )
+  }
+
+  refineFormats(bookList) {
+    let refinedFormats: any = {}
+    bookList.map((book) => {
+      for(var key in book.formats) {
+        if(book.formats.hasOwnProperty(key)) {
+            if(book.formats[key].endsWith('htm')){
+              refinedFormats[key] = book.formats[key]
+            } else if(book.formats[key].endsWith('txt')) {
+              refinedFormats[key] = book.formats[key]
+            } else if(book.formats[key].endsWith('pdf')) {
+              refinedFormats[key] = book.formats[key]
+            }
+        }
+      }
+      book.refinedFormats = refinedFormats;
+      book.preferredFormat = book.refinedFormats[Object.keys(book.refinedFormats)[0]];
+    })    
+  }
+
   onClear() {
     this.converterForm.controls['input'].setValue('');
     this.output = "";
+  }
+
+  onScrollDown() {
+    if(this.books.next) {
+      this.options.next = this.books.next;
+      this.append(this.options);
+    }
+  }
+
+  append(options) {
+    this.appService.moreBooks(options)
+      .subscribe(
+        (data: any) => {
+          this.books = data
+          this.refineFormats(data.results)
+          this.bookList.push.apply(this.bookList, data.results)
+        },
+        (error) => {}
+      )    
+  }
+
+  onScrollUp() {
+    // Prepend items at a later stage
   }
 
   makebody(sentence) {

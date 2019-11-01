@@ -1,14 +1,22 @@
-
-
 <form [formGroup]="converterForm" (ngSubmit)="onSubmit()">
     <div class="fields-container">
         <header class="header"><img class="logo" src="../assets/logo.png"><span>Braille Translator</span></header>
 
         <div class="form-field">
             <div style="width:100%">
+                <div [ngClass]="{'selectedTab': selectedTab === 'searchBooks'}" (click)="changeTab('searchBooks')"
+                    style="display:inline-block;
+                text-align: center;
+                width: 33%;
+                font-family: monospace;
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: bold;">
+                    <p>Library</p>
+                </div>
                 <div [ngClass]="{'selectedTab': selectedTab === 'translator'}" (click)="changeTab('translator')" style=" display:inline-block;
                 text-align: center;
-                width: 50%;
+                width: 33%;
                 font-family: monospace;
                 cursor: pointer;
                 font-size: 18px;
@@ -17,7 +25,7 @@
                 </div>
                 <div [ngClass]="{'selectedTab': selectedTab === 'rules'}" (click)="changeTab('rules')" style="display:inline-block;
                 text-align: center;
-                width: 50%;
+                width: 33%;
                 font-family: monospace;
                 cursor: pointer;
                 font-size: 18px;
@@ -26,7 +34,30 @@
                 </div>
             </div>
         </div>
-        <div 
+        <div *ngIf="selectedTab === 'searchBooks'">
+            <div class="search-group">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input class="search-field" (keyup)="searchTerm$.next($event.target.value)" #search>
+                <i class="fas fa-times" (click)="searchTerm$.next(''); search.value= ''"></i>
+            </div>
+            <div class="book-container">
+                <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="1.5"
+                    [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
+
+                    <div *ngFor=" let book of bookList" class="book">
+                        <div (click)="redirect(book.preferredFormat)" class="book-details">
+                            <img [src]="book.formats['image/jpeg']" class="cover">
+                            <div class="details">
+                                <span class="title">{{ book.title ? book.title : ''}}</span>
+                                <span class="author">{{book.authors.length ? book.authors[0].name : ''}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="selectedTab !== 'searchBooks'"
             style=" display:flex; flex-direction: row; justify-content: space-between ">
             <mat-form-field class="form-field" style="width: 45%">
                 <mat-label>Select a Grade</mat-label>
@@ -70,7 +101,8 @@
         </div>
 
         <div class="form-field" *ngIf="rules.length && selectedTab === 'rules'">
-            <mat-form-field class="form-field" style="width: 50%" *ngIf="converterForm.controls['grade'].value !== 'Grade 1'">
+            <mat-form-field class="form-field" style="width: 50%"
+                *ngIf="converterForm.controls['grade'].value !== 'Grade 1'">
                 <mat-label>Filter with rule type</mat-label>
                 <mat-select formControlName='filter'>
                     <mat-option *ngFor="let filter of filters" [value]="filter">
