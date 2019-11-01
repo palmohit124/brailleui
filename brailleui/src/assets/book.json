@@ -1,7 +1,8 @@
 {
   "grade": "",
   "standard": "",
-  "authors": [
+  "bookDetails": {
+    "authors": [
     {
       "birth_year": 1847,
       "death_year": 1912,
@@ -33,4 +34,5 @@
     "Whitby (England) -- Fiction"
   ],
   "title": "Dracula"
+  }
 }
