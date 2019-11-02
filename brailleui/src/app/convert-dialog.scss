@@ -1,0 +1,132 @@
+
+  
+.fields-container {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    // flex-direction: column
+}
+
+.form-field {
+    margin-bottom: 25px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+}
+
+.header {
+    font-weight: 500;
+    font-family: sans-serif;
+    padding: 10px 0;
+    display: flex;
+    /* align-content: center; */
+    align-items: center;
+}
+
+.output {
+  font-family: braille;    
+  font-size: 20px;
+  line-height: 2;
+  text-align: justify;
+}
+
+.buttons {
+    background-color: #278ec7;
+    margin: 0 10px;
+    color: white;
+}
+
+.selectedTab {
+    border-bottom: 1px solid #278ec7;
+}
+
+td, th {
+    width: 33%;
+    text-align: center;
+    padding: 5px;
+}
+
+table, thead, tbody {
+    width: 80%
+}
+
+.book-container {
+    min-width: 520px;
+
+    .book {
+        display: inline-block;
+        width: 150px;
+        padding: 5px;        
+        background-color: white;
+    
+        .book-details {
+            display: flex;
+            flex-direction: column;
+            min-height: 280px;
+    
+            .cover {
+                width: 150px;
+                height: 200px;
+                border-radius: 5px;
+            }
+    
+            .details {
+                font-family: 'sans-serif';
+                font-size: 12px;
+        
+               .title {
+                    display: block;
+                    font-weight: bold;            
+                    text-transform: uppercase;                    
+                    padding: 10px 0 5px 0;
+               }
+               .author {
+                    text-transform: capitalize;
+               }
+            }
+        }    
+    }
+
+    .search-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px;
+        min-width: 400px;
+
+        .search-group {
+            border-bottom: 1px solid grey;
+            display: flex;
+            justify-content: space-between;
+            width: 70%
+        }
+        
+        .search-field {
+            border: 0;
+            background: transparent;
+            padding: 0 15px 7px 15px;
+            font-size: 1em;
+            font-weight: 500;
+            width: 90%;
+        }
+
+        input:focus, div:focus, button:focus {
+            outline: none
+        }
+
+        .cancel-button {
+            border: 0;
+            padding: 5px 0;
+            background: transparent;
+            font-weight: bold;
+        }
+    }
+}

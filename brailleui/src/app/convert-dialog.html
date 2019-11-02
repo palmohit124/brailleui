@@ -1,0 +1,35 @@
+<div class="">
+    <div class="book">
+        <div (click)="openDialog(book)" class="book-details">
+            <img [src]="book.formats['image/jpeg']" class="cover">
+            <div class="details">
+                <span class="title">{{ book.title ? book.title : ''}}</span>
+                <span class="author">{{book.authors.length ? book.authors[0].name : ''}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<form [formGroup]="converterDialogForm" (ngSubmit)="onSubmit()">
+
+    <div *ngIf="selectedTab !== 'searchBooks'"
+        style=" display:flex; flex-direction: row; justify-content: space-between ">
+        <mat-form-field class="form-field" style="width: 45%">
+            <mat-label>Select a Grade</mat-label>
+            <mat-select formControlName='grade'>
+                <mat-option *ngFor="let grade of grades" [value]="grade">
+                    {{grade}} </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="form-field" style="width: 45%">
+            <mat-label>Please select a Standard</mat-label>
+            <mat-select formControlName='standard'>
+                <mat-option *ngFor="let standard of standards" [value]="standard">
+                    {{standard}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button class="buttons" mat-flat-button color="primary" type="submit">Translate</button>
+    </div>
+
+</form>

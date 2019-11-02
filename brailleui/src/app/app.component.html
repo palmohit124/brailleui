@@ -45,7 +45,7 @@
                     [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()">
 
                     <div *ngFor=" let book of bookList" class="book">
-                        <div (click)="redirect(book.preferredFormat)" class="book-details">
+                        <div (click)="openDialog(book)" class="book-details">
                             <img [src]="book.formats['image/jpeg']" class="cover">
                             <div class="details">
                                 <span class="title">{{ book.title ? book.title : ''}}</span>

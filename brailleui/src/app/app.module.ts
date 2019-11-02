@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppComponent, RulePipe } from './app.component';
+import { AppComponent, RulePipe, ConvertDialog } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
@@ -12,13 +12,16 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { HttpClientModule } from '@angular/common/http';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    RulePipe
+    RulePipe,
+    ConvertDialog
   ],
   imports: [
     BrowserModule,
@@ -31,9 +34,13 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatCardModule,
     MatButtonToggleModule,
     HttpClientModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    MatDialogModule    
   ],
   providers: [],
+  entryComponents: [
+    ConvertDialog
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
