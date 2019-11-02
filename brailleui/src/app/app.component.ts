@@ -49,6 +49,7 @@ export class AppComponent implements OnInit{
 
   url = "https://brailletranslator.azurewebsites.net/api/Translate";
   urlRules = "https://brailletranslator.azurewebsites.net/api/Rules";
+  urlBooks = "https://brailletranslator.azurewebsites.net/api/Book"
 
 
   //SEARCH
@@ -113,8 +114,22 @@ export class AppComponent implements OnInit{
   }
 
   redirect(url) {
-    if(url) {
-      window.open(url, '_.blank')
+    //this is just a sample
+    if (url) {
+      this.http.post(this.urlBooks,
+        {
+          "Grade": "Grade 1",
+          "Standard": "Standard"
+        },
+        { responseType: 'blob' }
+
+      ).
+        subscribe((data: any) => {
+
+          var blob = new Blob([data], { type: 'application/pdf' });
+          var fileURL = URL.createObjectURL(blob);
+          window.open(fileURL);
+        })
     }
   }
 
