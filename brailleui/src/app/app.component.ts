@@ -252,7 +252,7 @@ export class ConvertDialog {
   url = "https://brailletranslator.azurewebsites.net/api/book";
 
   constructor(
-    public dialogRef: MatDialogRef<ConvertDialog>,
+    public dialogRef: MatDialogRef<ConvertDialog>,private http: HttpClient,
     @Inject(MAT_DIALOG_DATA) public book: any) {}
 
   onNoClick(): void {
@@ -267,6 +267,17 @@ export class ConvertDialog {
         Url: this.book.preferredFormat
       }
     };
-  }
 
+    this.http.post(this.url,
+      request,
+      { responseType: 'blob' }
+
+    ).
+      subscribe((data: any) => {
+
+        var blob = new Blob([data], { type: 'application/pdf' });
+        var fileURL = URL.createObjectURL(blob);
+        window.open(fileURL);
+      })
+  }
 }
