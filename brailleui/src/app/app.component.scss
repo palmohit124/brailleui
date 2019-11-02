@@ -109,14 +109,7 @@ table, thead, tbody {
             width: 70%
         }
         
-        .search-field {
-            border: 0;
-            background: transparent;
-            padding: 0 15px 7px 15px;
-            font-size: 1em;
-            font-weight: 500;
-            width: 90%;
-        }
+        
 
         input:focus, div:focus, button:focus {
             outline: none
@@ -129,4 +122,19 @@ table, thead, tbody {
             font-weight: bold;
         }
     }
+}
+
+.search-field {
+    border: 0;
+    background: transparent;
+    padding: 0 30px 7px 25px;
+    font-size: 1em;
+    font-weight: 500;
+    width: 100%;
+}
+
+.search-field:focus {
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: none
 }

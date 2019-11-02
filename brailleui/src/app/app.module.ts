@@ -13,6 +13,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { HttpClientModule } from '@angular/common/http';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 
 
 
@@ -35,7 +37,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatButtonToggleModule,
     HttpClientModule,
     InfiniteScrollModule,
-    MatDialogModule    
+    MatDialogModule,
+    MatProgressBarModule    
   ],
   providers: [],
   entryComponents: [

@@ -36,9 +36,10 @@
         </div>
         <div *ngIf="selectedTab === 'searchBooks'">
             <div class="search-group">
-                <i class="fa fa-search" aria-hidden="true"></i>
-                <input class="search-field" (keyup)="searchTerm$.next($event.target.value)" #search>
-                <i class="fas fa-times" (click)="searchTerm$.next(''); search.value= ''"></i>
+                <i class="fa fa-search" 
+                style="position: absolute; float: left; color: #278ec7"></i>
+                    <input   class="search-field"  (keyup)="searchTerm$.next($event.target.value)"
+                    placeholder="Look up a book" #search>                
             </div>
             <div class="book-container">
                 <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="1.5"

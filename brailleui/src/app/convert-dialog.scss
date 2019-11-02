@@ -59,7 +59,7 @@ table, thead, tbody {
 }
 
 .book-container {
-    min-width: 520px;
+    
 
     .book {
         display: inline-block;
@@ -129,4 +129,8 @@ table, thead, tbody {
             font-weight: bold;
         }
     }
+}
+.dialog-container {
+    display: flex;
+    flex-direction: row;
 }

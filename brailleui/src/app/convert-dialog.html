@@ -1,35 +1,39 @@
-<div class="">
-    <div class="book">
-        <div  class="book-details">
-            <img [src]="book.formats['image/jpeg']" class="cover">
-            <div class="details">
-                <span class="title">{{ book.title ? book.title : ''}}</span>
-                <span class="author">{{book.authors.length ? book.authors[0].name : ''}}</span>
+<mat-progress-bar *ngIf="loader"  mode="indeterminate"></mat-progress-bar>
+<p style="padding: 10px; font-weight: bold;     font-family: 'sans-serif';
+font-size: 14px;">Get this book in braille</p>
+<div class="dialog-container">
+    <div class="book-container" style="width: 40%">
+        <div class="book">
+            <div class="book-details">
+                <img [src]="book.formats['image/jpeg']" class="cover">
+                <div class="details">
+                    <span class="title">{{ book.title ? book.title : ''}}</span>
+                    <span class="author">{{book.authors.length ? book.authors[0].name : ''}}</span>
+                </div>
             </div>
         </div>
     </div>
+    <form style="width: 60%" [formGroup]="converterDialogForm" (ngSubmit)="onSubmit()">
+
+        <div style=" display:flex; flex-direction: column; justify-content: space-between ">
+            <mat-form-field class="form-field" style="width: 100%">
+                <mat-label>Select a Grade</mat-label>
+                <mat-select formControlName='grade'>
+                    <mat-option *ngFor="let grade of grades" [value]="grade">
+                        {{grade}} </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="form-field" style="width: 100%">
+                <mat-label>Please select a Standard</mat-label>
+                <mat-select formControlName='standard'>
+                    <mat-option *ngFor="let standard of standards" [value]="standard">
+                        {{standard}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button class="buttons" mat-flat-button color="primary" type="submit">Translate</button>
+        </div>
+
+    </form>
 </div>
-<form [formGroup]="converterDialogForm" (ngSubmit)="onSubmit()">
-
-    <div 
-        style=" display:flex; flex-direction: row; justify-content: space-between ">
-        <mat-form-field class="form-field" style="width: 45%">
-            <mat-label>Select a Grade</mat-label>
-            <mat-select formControlName='grade'>
-                <mat-option *ngFor="let grade of grades" [value]="grade">
-                    {{grade}} </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="form-field" style="width: 45%">
-            <mat-label>Please select a Standard</mat-label>
-            <mat-select formControlName='standard'>
-                <mat-option *ngFor="let standard of standards" [value]="standard">
-                    {{standard}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <button class="buttons" mat-flat-button color="primary" type="submit">Translate</button>
-    </div>
-
-</form>

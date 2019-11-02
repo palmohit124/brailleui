@@ -87,8 +87,7 @@ export class AppComponent implements OnInit{
 
     console.log('>>', book)
     const dialogRef = this.dialog.open(ConvertDialog, {
-      height: '400px',
-      width: '600px',
+      width: '450px',
       data: book
     });
 
@@ -250,6 +249,7 @@ export class ConvertDialog {
   ]
 
   url = "https://brailletranslator.azurewebsites.net/api/book";
+  loader = false;
 
   constructor(
     public dialogRef: MatDialogRef<ConvertDialog>,private http: HttpClient,
@@ -260,6 +260,7 @@ export class ConvertDialog {
   }
 
   onSubmit() {
+    this.loader = true;
     let request = {
       Grade: this.converterDialogForm.controls['grade'].value,
       Standard: this.converterDialogForm.controls['standard'].value,
@@ -278,6 +279,12 @@ export class ConvertDialog {
         var blob = new Blob([data], { type: 'application/pdf' });
         var fileURL = URL.createObjectURL(blob);
         window.open(fileURL);
+        this.dialogRef.close();
+        this.loader = false;
+      },
+      (error)=> {
+        this.dialogRef.close();
+        this.loader = false;
       })
   }
 }
