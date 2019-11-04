@@ -268,7 +268,7 @@ export class ConvertDialog {
         Url: this.book.preferredFormat
       }
     };
-
+    let windowRef = window;
     this.http.post(this.url,
       request,
       { responseType: 'blob' }
@@ -278,7 +278,7 @@ export class ConvertDialog {
 
         var blob = new Blob([data], { type: 'application/pdf' });
         var fileURL = URL.createObjectURL(blob);
-        window.open(fileURL);
+        windowRef.open(fileURL);
         this.dialogRef.close();
         this.loader = false;
       },
